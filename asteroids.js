@@ -1,9 +1,11 @@
-
 let canvas;
 let ctx; // context
 let canvasWidth = 1400;
 let canvasHeight = 1000;
 let keys = []; // allow for multiple, simultaneous key inputs (and manipulation)
+let ship;
+let bullets = []; // array to hold bullets
+let asteroids = []; // array to hold asteroids
 //let shapeSize = 3;
 
 document.addEventListener('DOMContentLoaded', SetupCanvas);
@@ -15,6 +17,8 @@ function SetupCanvas() {
 	canvas.height = canvasHeight; // set height of canvas
 	ctx.fillStyle = 'black';
 	ctx.fillRect(0,0,canvas.width, canvas.height); // 0,0 - Coordinates of rectangle; width,height - the size of the rectangle
+
+	ship = new Ship();
 
 	document.body.addEventListener("keydown", function(e) { // when user presses down
 		keys[e.keyCode] = true;
@@ -40,6 +44,10 @@ class Ship { // ship is the user
 		this.radius = 15; // size of the ship
 		this.angle = 0;
 		this.strokeColor = 'white';
+
+		// where bullet comes out
+		this.noseX = canvasWidth / 2 + 15; //this.radius;
+		this.noseY = canvasHeight;
 	}
 
 	Rotate(dir) { // rotating the ship
@@ -84,6 +92,9 @@ class Ship { // ship is the user
 		let vertAngle = ((Math.PI * 2) / 3); // calculates angles between the vertices of the ship
 		let radians = this.angle / Math.PI * 180; // changes degrees to radians
 
+		this.noseX = this.x - this.radius * Math.cos(radians);
+		this.noseY = this.y - this.radius * Math.sin(radians);
+
 		for (let i = 0; i < 3; i++) { // cycle through points of the triangle
 
 			ctx.lineTo(this.x - this.radius * Math.cos(vertAngle * i + radians),
@@ -95,7 +106,12 @@ class Ship { // ship is the user
 	}
 }
 
-let ship = new Ship(); // creates a new ship object
+class Bullet {
+	constructor(angle) { // angle of ship is passed as argument
+		this.visible = true;
+		this.x =
+	}
+}
 
 // draws and updates all positions of shapes on the screen
 function Render() {
