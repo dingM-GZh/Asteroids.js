@@ -35,9 +35,48 @@ class Ship { // ship is the user
 		this.velX = 0;
 		this.velY = 0;
 		this.rotateSpeed = 0.001;
-		this.radius = 15;
+		this.radius = 15; // size of the ship
 		this.angle = 0;
 		this.strokeColor = 'white';
+	}
+	Rotate(dir) { // rotating the ship
+		this.angle += (this.rotateSpeed * dir);
+	}
+
+	Update() {
+		let radians = this.angle / Math.PI * 180; // current direction that ship is facing
+
+		if (this.movingForward) {
+			// oldX + cos(radians) * distance
+			this.velX += Math.cos(radians) * this.speed;
+			// oldY + sin(radians) * distance
+			this.velY += Math.sin(radians) * this.speed;
+		}
+
+		// if ship goes out of bounds of the screen
+		if (this.x < this.radius) {
+			this.x = canvas.width;
+		}
+		if (this.y < this.radius) {
+			this.y = canvas.height;
+		}
+		if (this.x > canvas.width) {
+			this.x = this.radius;
+		}
+		if (this.y > canvas.height) {
+			this.y = this.radius;
+		}
+		// simulates the ship slowing down (when key is not being pressed)
+		this.velX *= 0.99;
+		this.velY *= 0.99;
+
+		// changing value of X and Y (air friction)
+		this.x -= this.velX;
+		this.y -= this.velY;
+	}
+
+	Draw() {
+		ctx.strokeStyle = this.strokeColor;
 	}
 }
 
