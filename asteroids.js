@@ -3,6 +3,7 @@ let ctx; // context
 let canvasWidth = 1400;
 let canvasHeight = 1000;
 let keys = []; // allow for multiple, simultaneous key inputs (and manipulation)
+//let shapeSize = 3;
 
 document.addEventListener('DOMContentLoaded', SetupCanvas);
 
@@ -39,6 +40,7 @@ class Ship { // ship is the user
 		this.angle = 0;
 		this.strokeColor = 'white';
 	}
+
 	Rotate(dir) { // rotating the ship
 		this.angle += (this.rotateSpeed * dir);
 	}
@@ -77,6 +79,18 @@ class Ship { // ship is the user
 
 	Draw() {
 		ctx.strokeStyle = this.strokeColor;
+		ctx.beginPath(); // starts a brand new drawing of lines
+		let vertAngle = ((Math.PI * 2) / 3); // calculates angles between the vertices of the ship
+		let radians = this.angle / Math.PI * 180; // changes degrees to radians
+
+		for (let i = 0; i < 3; i++) { // cycle through points of the triangle
+
+			ctx.lineTo(this.x - this.radius * Math.cos(vertAngle * i + radians),
+					   this.y - this.radius * Math.sin(vertAngle * i + radians));
+		}
+
+		ctx.closePath();
+		ctx.stroke();
 	}
 }
 
@@ -84,5 +98,15 @@ let ship = new Ship(); // creates a new ship object
 
 // draws and updates all positions of shapes on the screen
 function Render() {
-
+	ship.movingForward = (keys[87]); // 87 is w
+	if (keys[68]) { // 68 is d
+		ship.Rotate(1);
+	}
+	if (keys[65]) { // 65 is a
+		ship.Rotate(-1);
+	}
+	ctx.clearRect(0,0, canvasWidth, canvasHeight);
+	ship.Update();
+	ship.Draw();
+	requestAnimationFrame(Render);
 }
