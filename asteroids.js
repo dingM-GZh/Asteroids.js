@@ -20,11 +20,18 @@ function SetupCanvas() {
 
 	ship = new Ship();
 
+	for (let i = 0; i < 8; i++) {
+		asteroids.push(new Asteroid());
+	}
+
 	document.body.addEventListener("keydown", function(e) { // when user presses down
 		keys[e.keyCode] = true;
 	});
 	document.body.addEventListener("keyup", function(e) { // when user released key
 		keys[e.keyCode] = false;
+		if (e.keyCode === 32) {
+			bullets.push(new Bullet(ship.angle));
+		}
 	});
 
 	Render();
@@ -187,5 +194,20 @@ function Render() {
 	ctx.clearRect(0,0, canvasWidth, canvasHeight);
 	ship.Update();
 	ship.Draw();
+
+	if (bullets.length != 0) {
+		for (let i = 0; i < bullets.length; i++) {
+			bullets[i].Update();
+			bullets[i].Draw();
+		}
+	}
+
+	if (asteroids.length != 0) {
+		for (let j = 0; j < asteroids.length; j++) {
+			asteroids[j].Update();
+			asteroids[j].Draw();
+		}
+	}
+
 	requestAnimationFrame(Render);
 }

@@ -1,2 +1,6 @@
 # Webstorm thing
 ./idea
+
+# Files to compare to
+og.js
+og.html
