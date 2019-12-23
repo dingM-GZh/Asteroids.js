@@ -45,9 +45,9 @@ class Ship { // ship is the user
 		this.angle = 0;
 		this.strokeColor = 'white';
 
-		// where bullet comes out
+		// location where bullet spawns
 		this.noseX = canvasWidth / 2 + 15; //this.radius;
-		this.noseY = canvasHeight;
+		this.noseY = canvasHeight / 2;
 	}
 
 	Rotate(dir) { // rotating the ship
@@ -92,11 +92,11 @@ class Ship { // ship is the user
 		let vertAngle = ((Math.PI * 2) / 3); // calculates angles between the vertices of the ship
 		let radians = this.angle / Math.PI * 180; // changes degrees to radians
 
+		// where bullets are drawn from
 		this.noseX = this.x - this.radius * Math.cos(radians);
 		this.noseY = this.y - this.radius * Math.sin(radians);
 
 		for (let i = 0; i < 3; i++) { // cycle through points of the triangle
-
 			ctx.lineTo(this.x - this.radius * Math.cos(vertAngle * i + radians),
 					   this.y - this.radius * Math.sin(vertAngle * i + radians));
 		}
@@ -109,7 +109,24 @@ class Ship { // ship is the user
 class Bullet {
 	constructor(angle) { // angle of ship is passed as argument
 		this.visible = true;
-		this.x =
+		this.x = ship.noseX;
+		this.y = ship.noseY;
+		this.angle = angle;
+		this.height = 4;
+		this.width = 4;
+		this.speed = 5;
+		this.velX = 0;
+		this.velY = 0;
+	}
+
+	Update() {
+		var radians = this.angle / Math.PI * 180; // converting angle from degrees to radians
+		this.x -= Math.cos(radians) * this.speed;
+		this.y -= Math.sin(radians) * this.speed;
+	}
+	Draw() {
+		ctx.fillStyle = 'white';
+		ctx.fillRect(this.x, this.y, this.width. this.height);
 	}
 }
 
