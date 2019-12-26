@@ -127,13 +127,14 @@ class Bullet {
 	}
 
 	Update() {
-		var radians = this.angle / Math.PI * 180; // converting angle from degrees to radians
+		let radians = this.angle / Math.PI * 180; // converting angle from degrees to radians
 		this.x -= Math.cos(radians) * this.speed;
 		this.y -= Math.sin(radians) * this.speed;
 	}
+	
 	Draw() {
 		ctx.fillStyle = 'white';
-		ctx.fillRect(this.x, this.y, this.width. this.height);
+		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
 }
 
@@ -149,7 +150,7 @@ class Asteroid {
 	}
 
 	Update() {
-		var radians = this.angle / Math.PI * 180;
+		let radians = this.angle / Math.PI * 180;
 		this.x += Math.cos(radians) * this.speed;
 		this.y += Math.sin(radians) * this.speed;
 
@@ -170,7 +171,7 @@ class Asteroid {
 	Draw() {
 		ctx.beginPath();
 		let vertAngle = ((Math.PI * 2) / 6);
-		var radians = this.angle / Math.PI * 180;
+		let radians = this.angle / Math.PI * 180;
 
 		for (let i = 0; i < 6; i++) { // cycle through points of the triangle
 			ctx.lineTo(this.x - this.radius * Math.cos(vertAngle * i + radians),
@@ -185,6 +186,7 @@ class Asteroid {
 // draws and updates all positions of shapes on the screen
 function Render() {
 	ship.movingForward = (keys[87]); // 87 is w
+
 	if (keys[68]) { // 68 is d
 		ship.Rotate(1);
 	}
@@ -195,14 +197,14 @@ function Render() {
 	ship.Update();
 	ship.Draw();
 
-	if (bullets.length != 0) {
+	if (bullets.length !== 0) {
 		for (let i = 0; i < bullets.length; i++) {
 			bullets[i].Update();
 			bullets[i].Draw();
 		}
 	}
 
-	if (asteroids.length != 0) {
+	if (asteroids.length !== 0) {
 		for (let j = 0; j < asteroids.length; j++) {
 			asteroids[j].Update();
 			asteroids[j].Draw();
